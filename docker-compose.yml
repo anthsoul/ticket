@@ -23,6 +23,21 @@ services:
       - "6379:6379"
     networks:
       - ticket-net
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: adminadmin
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio-data:/data
+    networks:
+      - ticket-net
+
 #  zookeeper:
 #    image: confluentinc/cp-zookeeper:7.3.2
 #    environment:
@@ -86,5 +101,6 @@ networks:
 volumes:
   postgres-master-data:
   redis-data:
+  minio-data:
 #  postgres-slave1-data:
 #  postgres-slave2-data:

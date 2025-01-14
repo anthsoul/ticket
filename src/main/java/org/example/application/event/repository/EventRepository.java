@@ -10,8 +10,9 @@ import java.util.Optional;
 
 @Repository
 public interface EventRepository {
-    Optional<Event> getEventById(long eventId);
+    Event getEventById(long eventId);
     List<Event> getListEventByCompany(long companyId, int page, int perPage);
+    Page<Event> getRecentEvent(int page, int perPage);
     void updateEvent();
     void deleteEvent(long eventId);
     Page<Event> filterEvent(String name,String status, String type, LocalDateTime startTime, LocalDateTime endTime, int page, int perPage);

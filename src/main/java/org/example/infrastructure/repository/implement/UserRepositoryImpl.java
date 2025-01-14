@@ -30,7 +30,7 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public User saveUser(User user) {
-        return null;
+        return userAdapter.convertToUser(userRepositoryJpa.save(UserAdapter.convertToUserEntity(user)));
     }
 
     @Override

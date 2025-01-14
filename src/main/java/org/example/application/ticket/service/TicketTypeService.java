@@ -34,11 +34,8 @@ public class TicketTypeService {
     private final String REDIS_TICKET_TYPE_PREFIX = "TICKET_TYPE";
 
     public List<TicketTypeDto> getAllTicketTypeFromEvent(long eventId, int page, int perPage) {
-        Optional<Event> eventDTO = eventRepository.getEventById(eventId);
-        if (eventDTO.isEmpty()) {
-            logger.error("Event not found {}", eventId);
-            throw new ResourceNotFoundException("Event not found");
-        }
+        Event eventDTO = eventRepository.getEventById(eventId);
+
         String key = REDIS_EVENT_PREFIX + ":" + eventId;
         String redisValue = redisRepository.get(key);
         if (redisValue != null) {

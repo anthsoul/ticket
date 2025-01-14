@@ -1,5 +1,6 @@
 package org.example.infrastructure.entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -16,7 +17,8 @@ public class UserEntity {
     @GeneratedValue(generator = "snowflake-id")
     @GenericGenerator(name = "snowflake-id", strategy = "org.example.infrastructure.utils.SnowflakeIdGenerator")
     @Column(name = "u_id")
-    private long uId;
+    @Builder.Default
+    private long uId = 0L;
 
     @Column(name = "u_name")
     private String uName;

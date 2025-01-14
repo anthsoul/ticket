@@ -25,7 +25,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final RedisRepository redisRepository;
-    private final FileCloudStorage fileCloudStorage;
+//    private final FileCloudStorage fileCloudStorage;
     private final RenameFileService renameFileService;
     private final JwtService jwtService;
     private final OTPService otpService;
@@ -66,9 +66,10 @@ public class AuthService {
         User userResponse = userRepository.saveUser(userSave);
 
         //handle upload file
-        String fileName = renameFileService.renameAvatarFile(userResponse.getId(), ".jpg");
-        fileCloudStorage.uploadFile(avatarBucket, fileName,requestDTO.getFile());
-        String url = fileCloudStorage.getFileUrl(avatarBucket, fileName);
+//        String fileName = renameFileService.renameAvatarFile(userResponse.getId(), ".jpg");
+//        fileCloudStorage.uploadFile(avatarBucket, fileName,requestDTO.getFile());
+//        String url = fileCloudStorage.getFileUrl(avatarBucket, fileName);
+        String url = "Test";
 
         //change url
         userResponse.updateAvatar(url);

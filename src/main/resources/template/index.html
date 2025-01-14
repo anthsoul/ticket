@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File to MinIO</title>
+</head>
+<body>
+
+<h2>Upload File to MinIO</h2>
+<input type="file" id="fileInput" />
+<button onclick="uploadFile()">Upload</button>
+
+<script>
+        function uploadFile() {
+            var file = document.getElementById('fileInput').files[0];
+
+            if (!file) {
+                alert('Please select a file.');
+                return;
+            }
+
+            var uploadUrl = 'http://localhost:9000/bucket-video/test?response-content-type=application%2Fjson&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=70JZxaVGFTORPcu7KcvM%2F20250113%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250113T085352Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=cba9c58237dd84b90c7e7a6bb76548cadaf4c2bc6db711db504051642e145e99';
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('PUT', uploadUrl, true);
+
+            var formData = new FormData();
+            formData.append('file', file);
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    alert('File uploaded successfully');
+                } else {
+                    alert('Upload failed: ' + xhr.statusText);
+                }
+            };
+
+            xhr.onerror = function () {
+                alert('Error during the file upload');
+            };
+
+            xhr.send(formData);
+        }
+    </script>
+
+</body>
+</html>

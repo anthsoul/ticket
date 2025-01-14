@@ -1,0 +1,5 @@
+/target
+/src/main/resources/hls
+/src/main/resources/video
+/src/main/resources/application.yml
+.idea

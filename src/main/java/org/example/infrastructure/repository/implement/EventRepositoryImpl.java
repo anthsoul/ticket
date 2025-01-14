@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
@@ -23,12 +22,17 @@ public class EventRepositoryImpl implements EventRepository {
     private final EventRepositoryJpa eventRepositoryJpa;
     private final EventSpecification eventSpecification;
     @Override
-    public Optional<Event> getEventById(long eventId) {
-        return Optional.empty();
+    public Event getEventById(long eventId) {
+        return null;
     }
 
     @Override
     public List<Event> getListEventByCompany(long companyId, int page, int perPage) {
+        return null;
+    }
+
+    @Override
+    public Page<Event> getRecentEvent(int page, int perPage) {
         return null;
     }
 

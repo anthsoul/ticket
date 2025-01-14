@@ -7,10 +7,8 @@ import org.example.application.user.dto.RegisterRequestDTO;
 import org.example.application.user.service.AuthService;
 import org.example.controller.dto.ResponseBody;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/auth")
@@ -25,11 +23,31 @@ public class AuthController {
                 .message("Login success!"));
     }
 
-    @PostMapping("/register")
-    private ResponseEntity<?> register(@RequestBody RegisterRequestDTO registerRequestDTO) {
-        return  ResponseEntity.ok(ResponseBody.builder()
-                .data(authService.register(registerRequestDTO))
-                .message("Register success!"));
+    @PostMapping(value = "/register", consumes = {"multipart/form-data"})
+    public ResponseEntity<?> register(
+            @RequestParam String name,
+            @RequestParam MultipartFile file,
+            @RequestParam String username,
+            @RequestParam String email,
+            @RequestParam String password,
+            @RequestParam String role,
+            @RequestParam String phoneNumber
+    ) {
+        RegisterRequestDTO registerRequestDTO = new RegisterRequestDTO();
+        registerRequestDTO.setName(name);
+        registerRequestDTO.setFile(file);
+        registerRequestDTO.setUsername(username);
+        registerRequestDTO.setEmail(email);
+        registerRequestDTO.setPassword(password);
+        registerRequestDTO.setRole(role);
+        registerRequestDTO.setPhoneNumber(phoneNumber);
+
+        return ResponseEntity.ok(
+                ResponseBody.builder()
+                        .data(authService.register(registerRequestDTO))
+                        .message("Register success!")
+                        .build()
+        );
     }
 
     @PostMapping("/logout")

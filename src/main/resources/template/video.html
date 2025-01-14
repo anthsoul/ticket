@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HLS Video Streaming</title>
+</head>
+<body>
+<video id="video" width="100%" controls></video>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+        if (Hls.isSupported()) {
+            var video = document.getElementById('video');
+            var hls = new Hls({
+                maxMaxBufferLength: 10,    // Số lượng đoạn video tối đa trong bộ đệm
+                maxBufferLength: 120,      // Tổng thời gian bộ đệm tối đa (giới hạn về thời gian video)
+                startLevel: -1,            // Tự động chọn chất lượng tối ưu
+                liveSyncDuration: 30       // Kích thước bộ đệm tối ưu cho video trực tiếp
+            });
+
+            hls.loadSource('http://localhost:8080/hls/playlist.m3u8');
+            hls.attachMedia(video);
+
+            hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                video.play();
+            });
+
+            // Xử lý sự kiện tua lại video
+            video.addEventListener('seeked', function () {
+                  hls.startLevel = -1;  // Để HLS tự động chọn chất lượng tốt nhất khi tua
+                hls.seekTo(video.currentTime);
+            });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            // Nếu trình duyệt hỗ trợ HLS natively (ví dụ: Safari)
+            video.src = 'http://localhost:8080/hls/playlist.m3u8';
+            video.addEventListener('loadedmetadata', function () {
+                video.play();
+            });
+        }
+    </script>
+</body>
+</html>
